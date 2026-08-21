@@ -15,8 +15,8 @@ services:
 
 databases:
   - name: vtbdb
-    databaseName: vtbprd
-    user: public_user
+    databaseName: snglstdb
+    user: manage_user
     plan: free
     region: Singapore
     ipAllowList: [] # すべてのIPを許可
