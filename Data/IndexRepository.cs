@@ -117,13 +117,13 @@ namespace Index.Repository
                 if (!string.IsNullOrEmpty(searchCondition.SongName))
                 {
                     sb.AppendLine("   and (song.song_name ilike '%' || @srcSong || '%' ");
-                    sb.AppendLine("    or song.song_kana ilike '%' || to_kana(@srcSong) || '%' ");
+                    sb.AppendLine("    or  song.song_kana ilike '%' || to_kana(@srcSong) || '%' ");
                     sb.AppendLine("       ) ");
                 }
                 if (!string.IsNullOrEmpty(searchCondition.ArtistName))
                 {
                     sb.AppendLine("   and (song.artist_name ilike '%' || @srcArtist || '%' ");
-                    sb.AppendLine("    or song.artist_kana ilike '%' || to_kana(@srcArtist) || '%' ");
+                    sb.AppendLine("    or  song.artist_kana ilike '%' || to_kana(@srcArtist) || '%' ");
                     sb.AppendLine("       ) ");
                 }
                 if (!string.IsNullOrEmpty(searchCondition.Genre))
@@ -133,9 +133,10 @@ namespace Index.Repository
                 if (!string.IsNullOrEmpty(searchCondition.Tieup))
                 {
                     sb.AppendLine("   and (song.tieup_name ilike '%' || @srcTieup || '%' ");
-                    sb.AppendLine("    or song.tieup_kana ilike '%' || to_kana(@srcTieup) || '%' ");
+                    sb.AppendLine("    or  song.tieup_kana ilike '%' || to_kana(@srcTieup) || '%' ");
                     sb.AppendLine("       ) ");
                 }
+                sb.AppendLine(" order by song.artist_name ");
 
                 using (var cmd = new NpgsqlCommand(sb.ToString(), conn))
                 {

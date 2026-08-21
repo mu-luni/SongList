@@ -23,7 +23,6 @@ E:\VSCode\SongList\obj\Debug\net10.0\rjimswa.dswa.cache.json
 E:\VSCode\SongList\obj\Debug\net10.0\rjsmrazor.dswa.cache.json
 E:\VSCode\SongList\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json
 E:\VSCode\SongList\obj\Debug\net10.0\scopedcss\bundle\SongList.styles.css
-E:\VSCode\SongList\obj\Debug\net10.0\compressed\6zfctlmm7x-{0}-vbk49b2gv0-vbk49b2gv0.gz
 E:\VSCode\SongList\obj\Debug\net10.0\staticwebassets.build.json
 E:\VSCode\SongList\obj\Debug\net10.0\staticwebassets.build.json.cache
 E:\VSCode\SongList\obj\Debug\net10.0\staticwebassets.development.json
@@ -36,3 +35,4 @@ E:\VSCode\SongList\obj\Debug\net10.0\SongList.pdb
 E:\VSCode\SongList\obj\Debug\net10.0\SongList.genruntimeconfig.cache
 E:\VSCode\SongList\obj\Debug\net10.0\ref\SongList.dll
 E:\VSCode\SongList\obj\Debug\net10.0\compressed\a19891wsme-{0}-zm1kxvt5lx-zm1kxvt5lx.gz
+E:\VSCode\SongList\obj\Debug\net10.0\compressed\6zfctlmm7x-{0}-uxepxi00r5-uxepxi00r5.gz

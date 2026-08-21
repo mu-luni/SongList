@@ -121,6 +121,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (currentSort.key) {
     sortTable(currentSort.key, false);
+  } else if (document.querySelector('.sort-col[data-sort-key="ArtistName"]')) {
+    sortTable('ArtistName', false);
   } else {
     updateSortIcons(null);
   }
