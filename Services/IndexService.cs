@@ -15,7 +15,6 @@ namespace Index.Service
         {
             var viewmodel = new HomeIndexViewModel
             {
-                /* TEST
                 searchCondition = condition,
                 // グループ情報を取得してViewModelに設定する
                 groupList = _indexRepository.GetGroupList(),
@@ -23,10 +22,6 @@ namespace Index.Service
                 memberList = _indexRepository.GetMemberList(),
                 // ジャンルリストを取得してViewModelに設定する
                 genreList = _indexRepository.GetGenreList()
-                */
-                searchCondition = condition
-                // グループ情報を取得してViewModelに設定する
-                // TEST
             };
             if (search)
             {
