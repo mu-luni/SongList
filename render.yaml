@@ -2,7 +2,7 @@ services:
   - type: web
     name: fillnecode-songlist
     env: docker
-    region: tokyo
+    region: Singapore
     plan: free
     
     envVars:
@@ -18,5 +18,5 @@ databases:
     databaseName: vtbprd
     user: public_user
     plan: free
-    region: tokyo
+    region: Singapore
     ipAllowList: [] # すべてのIPを許可
