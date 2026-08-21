@@ -1,0 +1,103 @@
+@model SongList.Models.ViewModels.HomeDetailsViewModel
+
+@{
+	ViewData["Title"] = @Model.DtlMemberName + "配信リスト";
+	ViewData["Description"] = "";
+}
+
+<!-- 曲情報 -->
+<div class="top-form">
+	<h1 class="page-title">@Model.DtlMemberName<span>の配信リスト</span></h1>
+	<div class="form-grid">
+		<!-- 曲名 -->
+		<div class="form-group">
+			<label class="field-label">曲名</label>
+			<div class="display-text"><span>@Model.DtlSongName</span></div>
+		</div>
+		<!-- アーティスト名 -->
+		<div class="form-group">
+			<label class="field-label">アーティスト名</label>
+			<div class="display-text"><span>@Model.DtlArtistName</span></div>
+		</div>
+		<!-- ジャンル -->
+		<div class="form-group">
+			<label class="field-label">ジャンル</label>
+			<div class="display-text">
+				@{
+					var genreMappings = new Dictionary<string, string>
+					{
+						{ "01", "jpop" },
+						{ "02", "vtuber" },
+						{ "03", "idol" },
+						{ "04", "anison" },
+						{ "05", "original" },
+						{ "06", "vocaloid" },
+						{ "07", "utaite" },
+						{ "08", "chorus" },
+						{ "09", "doyo" },
+						{ "10", "enka" },
+						{ "11", "western" }
+					};
+					
+					var codes = @Model.DtlGenreCode.Split(separator: '\t', StringSplitOptions.TrimEntries);
+					var names = @Model.DtlGenreName.Split(separator: '\t', StringSplitOptions.TrimEntries);
+					
+					@foreach (var (code, name) in codes.Zip(names))
+					{
+						var className = genreMappings.TryGetValue(code, out var value) ? value : "jpop";
+						<span class="status-badge @className">@name</span>
+					}
+				}
+			</div>
+		</div>
+		<!-- タイアップ -->
+		<div class="form-group">
+			<label class="field-label">タイアップ</label>
+			<div class="display-text"><span>@Model.DtlTieupName</span></div>
+		</div>
+	</div>
+</div>
+<!-- 配信一覧 -->
+<div class="result-form">
+	<!-- 件数バー -->
+	<div class="result-info-bar">
+		<span class="result-count">該当件数: <strong>@Model.ListCount</strong> 件</span>
+	</div>
+	<div class="list-container">
+		<div class="list-header stream-list-grid">
+			<div class="col-center">リンク</div>
+			<div class="sort-col" data-sort-key="ReleaseDate" onclick="sortTable('ReleaseDate')">配信日 <span id="icon-release">↕</span></div>
+			<div class="col-center">配信名</div>
+			<div class="col-center">備考</div>
+			<div class="sort-col col-count" data-sort-key="LimitedName" onclick="sortTable('LimitedName')">限定 <span id="icon-limited">↕</span></div>
+		</div>
+		<div id="result-item">
+			@foreach (SongList.Models.ViewModels.StreamListModel item in Model.StreamListModel)
+				{
+					<div class="list-item stream-list-grid" data-release-date="@item.ReleaseDate" data-limited-name="@item.LimitedName">
+						<div class="col-center">
+							<a class="yt-link-btn" href="@item.StreamUrl" title="YouTubeで見る" target="_blank" rel="noopener noreferrer">
+								<svg class="yt-icon" viewBox="0 0 24 24">
+									<path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+								</svg>
+							</a>
+						</div>
+						<div class="release-date">@item.ReleaseDate</div>
+						<div class="stream-title">@item.StreamTitle</div>
+						<div class="setlist-notes">@item.SetlistNotes</div>
+						<div class="limited-name col-center">
+							@switch (@item.LimitedCode)
+							{
+								case "01":
+									<span class="status-badge member">@item.LimitedName</span>
+									break;
+								default:
+									<span>@item.LimitedName</span>
+									break;
+							}
+						</div>
+					</div>
+				}
+		</div>
+	</div>
+</div>

@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: fillnecode-songlist
+    env: docker
+    region: tokyo
+    plan: free
+    
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: ConnectionStrings__DefaultConnection
+        fromDatabase:
+          name: vtbdb
+          property: connectionString
+
+databases:
+  - name: vtbdb
+    databaseName: vtbprd
+    user: public-user
+    plan: free
+    region: tokyo
+    ipAllowList: [] # すべてのIPを許可

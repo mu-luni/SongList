@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="@ViewData["Description"]" />
+		<meta name="robots" content="noindex" />
+        <title>@ViewData["Title"]</title>
+		<link rel="stylesheet" href="~/css/common.css" asp-append-version="true" />
+	</head>
+	<body>
+		<div class="main-wrapper">
+		    @RenderBody()
+		</div>
+
+		@if (!(ViewData["HideFooter"] is bool hideFooter && hideFooter))
+		{
+			<footer class="footer">
+				<div class="container footer-inner">
+					<a asp-controller="Home" asp-action="Terms" asp-route-kind="terms" class="footer-link">利用規約</a>
+					<a asp-controller="Home" asp-action="Terms" asp-route-kind="privacy" class="footer-link">プライバシーポリシー</a>
+					<a  class="footer-link" href="https://docs.google.com/forms/d/e/1FAIpQLSdu7tnbyhDz1YLbhh5-qVhPgw_L7Ud6lGKVxC5G8rCFR0Btzw/viewform?usp=publish-editor"  title="お問い合わせ" target="_blank" rel="noopener noreferrer">お問い合わせ</a>
+				</div>
+			</footer>
+		}
+        <!-- 共通JS読み込み -->
+		<script src="~/js/common.js" asp-append-version="true"></script>
+	</body>
+</html>

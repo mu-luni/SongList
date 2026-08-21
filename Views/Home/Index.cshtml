@@ -1,0 +1,101 @@
+@using SongList.Models.ViewModels
+@model SongList.Models.ViewModels.HomeIndexViewModel
+
+@{
+	GroupListModel gItem = Model.groupList;
+	ViewData["Title"] = @gItem.GroupName + "歌った曲リスト";
+	ViewData["Description"] = @gItem.Description;
+}
+
+<!-- 検索フォーム -->
+<div class="top-form">
+	<h1 class="page-title">Fillnecode歌った曲リスト</h1>
+	<form method="post" asp-action="Index" Content-Type: text/html; charset=utf-8>
+		<div class="form-grid">
+			<!-- 曲名 -->
+			<div class="form-group">
+				<label class="field-label">曲名</label>
+				<input type="text" class="input-text" placeholder="曲名を入力" asp-for="searchCondition.SongName">
+			</div>
+			<!-- アーティスト名 -->
+			<div class="form-group">
+				<label class="field-label">アーティスト名</label>
+				<input type="text" class="input-text" placeholder="アーティスト名を入力" asp-for="searchCondition.ArtistName">
+			</div>
+			<!-- ジャンル -->
+			<div class="form-group">
+				<label class="field-label">ジャンル</label>
+				<select class="select-box" asp-for="searchCondition.Genre">
+					<option value="">--</option>
+					@foreach (var genre in Model.genreList)
+					{
+						@if (Model.searchCondition.Genre == genre.GenreCode)
+						{
+							<option value="@genre.GenreCode" selected>@genre.GenreName</option>
+						}
+						else
+						{
+							<option value="@genre.GenreCode">@genre.GenreName</option>
+						}
+					}
+				</select>
+			</div>
+			<!-- タイアップ -->
+			<div class="form-group">
+				<label class="field-label">タイアップ</label>
+				<input type="text" class="input-text" placeholder="作品名などを入力" asp-for="searchCondition.Tieup">
+			</div>
+			<!-- メンバー -->
+			<div class="form-group full-width">
+				<label class="field-label">メンバー</label>
+				<div class="radio-group">
+					@foreach (var member in Model.memberList)
+					{
+						<label class="radio-label">
+							<input type="radio" asp-for="searchCondition.Member" value="@member.MemberCode"> @member.MemberName
+						</label>
+					}
+				</div>
+				
+			</div>
+		</div>
+		<!-- 検索ボタン -->
+		<div class="form-actions">
+			<button type="submit" class="btn-search">検索する</button>
+		</div>			
+	</form>
+</div>
+<!-- 曲一覧 -->
+<div class="result-form">
+	<!-- 件数バー -->
+	<div class="result-info-bar">
+		<span class="result-count">該当件数: <strong>@Model.ListCount</strong> 件</span>
+	</div>
+	<div class="list-container">
+		<div class="list-header song-list-grid">
+			<div class="col-center">詳細</div>
+			<div class="sort-col" data-sort-key="SongName" onclick="sortTable('SongName')">曲名<span id="icon-title">↕</span></div>
+			<div class="sort-col" data-sort-key="ArtistName" onclick="sortTable('ArtistName')">アーティスト名 <span id="icon-artist">↕</span></div>
+			<div class="sort-col" data-sort-key="ReleaseDate" onclick="sortTable('ReleaseDate')">最終歌唱日 <span id="icon-release">↕</span></div>
+			<div class="sort-col col-count" data-sort-key="SungCount" onclick="sortTable('SungCount')">歌唱回数 <span id="icon-count">↕</span></div>
+		</div>
+		<div id="result-item">
+			@foreach (SongList.Models.ViewModels.SongListModel item in Model.songList)
+				{
+					<div class="list-item song-list-grid" data-song-name="@item.SongName" data-artist-name="@item.ArtistName" data-release-date="@item.LastSungDate" data-sung-count="@item.SungCount">
+						<form method="post" asp-action="Details">
+							<div class="col-center">
+								<button type="submit" class="btn-detail">詳細</button>
+								<input type="hidden" name="songId" value="@item.SongId" />
+								<input type="hidden" name="memberCode" value="@item.MemberCode" />
+							</div>
+						</form>
+						<div class="song-title">@item.SongName</div>
+						<div class="artist-name">@item.ArtistName</div>
+						<div class="release-date">@item.LastSungDate</div>
+						<div class="col-count"><span class="count-badge">@item.SungCount 回</span></div>
+					</div>
+				}
+		</div>
+	</div>
+</div>

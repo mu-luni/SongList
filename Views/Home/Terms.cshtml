@@ -1,0 +1,23 @@
+@model SongList.Models.ViewModels.HomeTermsViewModel
+@{
+    ViewData["Title"] = @Model.pageTitle;
+    ViewData["Description"] = "";
+    ViewData["HideFooter"] = true;
+}
+
+<div class="terms-page">
+    <h1 class="page-title">@Model.pageTitle</h1>
+
+    @foreach (var info in Model.informationModel)
+    {
+        var contentsValues = info.contents.Split(separator: '\t', StringSplitOptions.TrimEntries);
+        <section class="terms-section">
+            <h2>@info.title</h2>
+            @foreach (string contentsValue in contentsValues)
+            {
+                <p>@contentsValue</p>
+            }
+        </section>
+    }
+
+</div>
