@@ -16,7 +16,7 @@ services:
 databases:
   - name: vtbdb
     databaseName: vtbprd
-    user: public-user
+    user: public_user
     plan: free
     region: tokyo
     ipAllowList: [] # すべてのIPを許可
