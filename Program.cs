@@ -5,12 +5,16 @@ using Details.Repository;
 using Details.Service;
 using Terms.Repository;
 using Terms.Service;
+using Npgsql;
 public partial class Program
 {
     private static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+        var connectionString =builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+        var dataSource = NpgsqlDataSource.Create(connectionString);
 
+        builder.Services.AddSingleton(dataSource);
         builder.Services.AddMemoryCache();
         builder.Services.AddControllersWithViews();
         builder.Services.AddScoped<IndexService>();

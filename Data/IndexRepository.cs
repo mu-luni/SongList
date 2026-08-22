@@ -6,12 +6,12 @@ namespace Index.Repository
 {
     public class IndexRepository
     {
-        private readonly string _configuration;
+        private readonly NpgsqlDataSource _dataSource;
         private readonly string _groupCode;
-        public IndexRepository(IConfiguration configuration)
+        public IndexRepository(NpgsqlDataSource dataSource, IConfiguration configuration)
         {
-                // DB接続文字列を取得
-                _configuration = configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+                // データソースを取得
+                _dataSource = dataSource;
                 // グループコードを取得
                 _groupCode = configuration["GroupCode"] ?? throw new InvalidOperationException("Configuration 'GroupCode' not found.");
         }
@@ -19,10 +19,14 @@ namespace Index.Repository
         public GroupListModel GetGroupList()
         {
             var groupList = new GroupListModel();
-            using (var conn = new NpgsqlConnection(_configuration))
+            using var conn = _dataSource.OpenConnection();
             {
-                conn.Open();
-                using (var cmd = new NpgsqlCommand("select group_name, description from group_list where group_code = @group_code", conn))
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine("select group_name ");
+                sb.AppendLine("     , description ");
+                sb.AppendLine("  from group_list ");
+                sb.AppendLine(" where group_code = @group_code ");
+                using (var cmd = new NpgsqlCommand(sb.ToString(), conn))
                 {
                     cmd.Parameters.Add("@group_code", NpgsqlTypes.NpgsqlDbType.Varchar, 2).Value = _groupCode;
                     using (var reader = cmd.ExecuteReader())
@@ -41,10 +45,15 @@ namespace Index.Repository
         public List<MemberListModel> GetMemberList()
         {
             var memberList = new List<MemberListModel>();
-            using (var conn = new NpgsqlConnection(_configuration))
+            using var conn = _dataSource.OpenConnection();
             {
-                conn.Open();
-                using (var cmd = new NpgsqlCommand("select member_code, member_name from member_list where group_code = @group_code order by member_code", conn))
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine("select member_code ");
+                sb.AppendLine("     , member_name ");
+                sb.AppendLine("  from member_list ");
+                sb.AppendLine(" where group_code = @group_code ");
+                sb.AppendLine(" order by member_code ");
+                using (var cmd = new NpgsqlCommand(sb.ToString(), conn))
                 {
                     cmd.Parameters.Add("@group_code", NpgsqlTypes.NpgsqlDbType.Varchar, 2).Value = _groupCode;
                     using (var reader = cmd.ExecuteReader())
@@ -66,10 +75,14 @@ namespace Index.Repository
         public List<GenreListModel> GetGenreList()
         {
             var genreList = new List<GenreListModel>();
-            using (var conn = new NpgsqlConnection(_configuration))
+            using var conn = _dataSource.OpenConnection();
             {
-                conn.Open();
-                using (var cmd = new NpgsqlCommand("select genre_code, genre_name from song_genre_list order by genre_code", conn))
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine("select genre_code ");
+                sb.AppendLine("     , genre_name ");
+                sb.AppendLine("  from song_genre_list ");
+                sb.AppendLine(" order by genre_code ");
+                using (var cmd = new NpgsqlCommand(sb.ToString(), conn))
                 {
                     using (var reader = cmd.ExecuteReader())
                     {
@@ -90,9 +103,8 @@ namespace Index.Repository
         public List<SongListModel> GetSongList(SearchCondition searchCondition)
         {
             var songList = new List<SongListModel>();
-            using (var conn = new NpgsqlConnection(_configuration))
+            using var conn = _dataSource.OpenConnection();
             {
-                conn.Open();
                 StringBuilder sb = new StringBuilder();
                 sb.AppendLine("select song.song_id ");
                 sb.AppendLine("     , @srcMember as member_code ");

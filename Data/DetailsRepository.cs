@@ -6,17 +6,16 @@ namespace Details.Repository
 {
     public class DetailsRepository
     {
-        private readonly string _configuration;
-        public DetailsRepository(IConfiguration configuration)
+        private readonly NpgsqlDataSource _dataSource;
+        public DetailsRepository(NpgsqlDataSource dataSource)
         {
-                // DB接続文字列を取得
-                _configuration = configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+                // データソースを取得
+                _dataSource = dataSource;
         }
         public void GetMemberName(HomeDetailsViewModel viewmodel, string memberCode)
         {
-            using (var conn = new NpgsqlConnection(_configuration))
+            using var conn = _dataSource.OpenConnection();
             {
-                conn.Open();
                 StringBuilder sb = new StringBuilder();
                 sb.AppendLine("select member_name ");
                 sb.AppendLine("  from member_list ");
@@ -38,9 +37,8 @@ namespace Details.Repository
         }
         public void GetDetailSongList(HomeDetailsViewModel viewmodel, long songId)
         {
-            using (var conn = new NpgsqlConnection(_configuration))
+            using var conn = _dataSource.OpenConnection();
             {
-                conn.Open();
                 StringBuilder sb = new StringBuilder();
                 sb.AppendLine("select song.song_name ");
                 sb.AppendLine("     , song.artist_name ");
@@ -93,9 +91,8 @@ namespace Details.Repository
          public List<StreamListModel> GetStreamList(long songId, string memberCode)
         {
             var memberList = new List<StreamListModel>();
-            using (var conn = new NpgsqlConnection(_configuration))
+            using var conn = _dataSource.OpenConnection();
             {
-                conn.Open();
                 StringBuilder sb = new StringBuilder();
                 sb.AppendLine("select case when slst.start_time is null then strl.stream_url ");
                 sb.AppendLine("        else strl.stream_url || '?t=' ");

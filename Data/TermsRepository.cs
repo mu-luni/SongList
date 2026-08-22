@@ -6,18 +6,17 @@ namespace Terms.Repository
 {
     public class TermsRepository
     {
-        private readonly string _configuration;
-        public TermsRepository(IConfiguration configuration)
+        private readonly NpgsqlDataSource _dataSource;
+        public TermsRepository(NpgsqlDataSource dataSource)
         {
-                // DB接続文字列を取得
-                _configuration = configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+                // データソースを取得
+                _dataSource = dataSource;
         }
 
         public void GetInformation(HomeTermsViewModel viewmodel, string kind)
         {
-            using (var conn = new NpgsqlConnection(_configuration))
+            using var conn = _dataSource.OpenConnection();
             {
-                conn.Open();
                 StringBuilder sb = new StringBuilder();
                 sb.AppendLine("select info.page_title ");
                 sb.AppendLine("     , info.title ");
