@@ -3,7 +3,7 @@ let currentSort = { key: null, asc: true };
 
 function loadSortState() {
   try {
-    const saved = localStorage.getItem(SORT_STATE_KEY);
+    const saved = sessionStorage.getItem(SORT_STATE_KEY);
     if (!saved) return { key: null, asc: true };
 
     const parsed = JSON.parse(saved);
@@ -21,7 +21,7 @@ function loadSortState() {
 
 function saveSortState() {
   try {
-    localStorage.setItem(SORT_STATE_KEY, JSON.stringify(currentSort));
+    sessionStorage.setItem(SORT_STATE_KEY, JSON.stringify(currentSort));
   } catch (error) {
     console.warn('Sort state could not be saved:', error);
   }
@@ -45,6 +45,12 @@ function getRowSortValue(row, key) {
     return row.dataset.limitedname || row.querySelector('.limited-name')?.textContent.trim() || '';
   }
   return '';
+}
+
+function compareStrings(valueA, valueB) {
+  if (valueA < valueB) return -1;
+  if (valueA > valueB) return 1;
+  return 0;
 }
 
 function updateSortIcons(activeKey) {
@@ -101,9 +107,8 @@ function sortTable(key, toggle = true) {
     const valB = getRowSortValue(b, key);
 
     if (typeof valA === 'string') {
-      return currentSort.asc
-        ? valA.localeCompare(valB, 'ja')
-        : valB.localeCompare(valA, 'ja');
+      const comparison = compareStrings(valA, valB);
+      return currentSort.asc ? comparison : -comparison;
     }
 
     return currentSort.asc ? valA - valB : valB - valA;
