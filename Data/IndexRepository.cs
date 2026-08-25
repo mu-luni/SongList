@@ -122,6 +122,7 @@ namespace Index.Repository
                 sb.AppendLine("            on stl.stream_id = sls.stream_id ");
                 sb.AppendLine("           and stl.member_code = sls.member_code ");
                 sb.AppendLine("         where sls.member_code = @srcMember ");
+                sb.AppendLine("           and stl.limited_code <> '02' ");
                 sb.AppendLine("         group by sls.song_id ");
                 sb.AppendLine("       ) slst ");
                 sb.AppendLine("    on song.song_id = slst.song_id ");
