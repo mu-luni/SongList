@@ -76,13 +76,13 @@
 			<div class="col-center">詳細</div>
 			<div class="sort-col" data-sort-key="SongName" onclick="sortTable('SongName')">曲名<span id="icon-title">↕</span></div>
 			<div class="sort-col" data-sort-key="ArtistName" onclick="sortTable('ArtistName')">アーティスト名 <span id="icon-artist">↕</span></div>
-			<div class="sort-col" data-sort-key="ReleaseDate" onclick="sortTable('ReleaseDate')">最終歌唱日 <span id="icon-release">↕</span></div>
+			<div class="sort-col" data-sort-key="LastSungDate" onclick="sortTable('LastSungDate')">最終歌唱日 <span id="icon-lastsungdate">↕</span></div>
 			<div class="sort-col col-count" data-sort-key="SungCount" onclick="sortTable('SungCount')">歌唱回数 <span id="icon-count">↕</span></div>
 		</div>
 		<div id="result-item">
 			@foreach (SongList.Models.ViewModels.SongListModel item in Model.songList)
 				{
-					<div class="list-item song-list-grid" data-song-name="@item.SongName" data-artist-name="@item.ArtistName" data-release-date="@item.LastSungDate" data-sung-count="@item.SungCount">
+					<div class="list-item song-list-grid" data-song-name="@item.SongName" data-artist-name="@item.ArtistName" data-last-sung-date="@item.LastSungDate" data-sung-count="@item.SungCount">
 						<form method="post" asp-action="Details">
 							<div class="col-center">
 								<button type="submit" class="btn-detail">詳細</button>
@@ -92,7 +92,7 @@
 						</form>
 						<div class="song-title">@item.SongName</div>
 						<div class="artist-name">@item.ArtistName</div>
-						<div class="release-date">@item.LastSungDate</div>
+						<div class="last-sung-date">@item.LastSungDate</div>
 						<div class="col-count"><span class="count-badge">@item.SungCount 回</span></div>
 					</div>
 				}

@@ -112,6 +112,7 @@ namespace Details.Repository
                 sb.AppendLine(" where slst.song_id = @songId ");
                 sb.AppendLine("   and slst.member_code = @memberCode ");
                 sb.AppendLine("   and strl.limited_code <> '02' ");
+                sb.AppendLine(" order by strl.release_date ");
 
                 using (var cmd = new NpgsqlCommand(sb.ToString(), conn))
                 {

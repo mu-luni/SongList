@@ -7,7 +7,7 @@ function loadSortState() {
     if (!saved) return { key: null, asc: true };
 
     const parsed = JSON.parse(saved);
-    if (parsed && typeof parsed.key === 'string' && ['SongName', 'ArtistName', 'SungCount', 'ReleaseDate', 'LimitedName'].includes(parsed.key)) {
+    if (parsed && typeof parsed.key === 'string' && ['SongName', 'ArtistName', 'LastSungDate', 'SungCount', 'ReleaseDate', 'LimitedName'].includes(parsed.key)) {
       return {
         key: parsed.key,
         asc: typeof parsed.asc === 'boolean' ? parsed.asc : true
@@ -34,6 +34,9 @@ function getRowSortValue(row, key) {
   if (key === 'ArtistName') {
     return row.dataset.artistName || row.querySelector('.artist-name')?.textContent.trim() || '';
   }
+  if (key === 'LastSungDate') {
+    return row.dataset.lastSungDate || row.querySelector('.last-sung-date')?.textContent.trim() || '';
+  }
   if (key === 'SungCount') {
     const countText = row.dataset.sungCount || row.querySelector('.count-badge')?.textContent.replace(/[^0-9]/g, '') || '0';
     return Number(countText);
@@ -54,11 +57,12 @@ function compareStrings(valueA, valueB) {
 }
 
 function updateSortIcons(activeKey) {
-  const keys = ['SongName', 'ArtistName', 'SungCount', 'ReleaseDate', 'LimitedName'];
+  const keys = ['SongName', 'ArtistName', 'LastSungDate', 'SungCount', 'ReleaseDate', 'LimitedName'];
   keys.forEach(k => {
     const icon = document.getElementById(
       k === 'SongName' ? 'icon-title' :
       k === 'ArtistName' ? 'icon-artist' :
+      k === 'LastSungDate' ? 'icon-lastsungdate' :
       k === 'ReleaseDate' ? 'icon-release' :
       k === 'LimitedName' ? 'icon-limited' :
       'icon-count'
