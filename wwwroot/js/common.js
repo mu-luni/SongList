@@ -1,9 +1,16 @@
-const SORT_STATE_KEY = 'songListSortState';
+const INDEX_SORT_STATE_KEY = 'songListIndexSortState';
+const DETAILS_SORT_STATE_KEY = 'songListDetailsSortState';
+
+function getSortStateKey() {
+  return document.querySelector('.sort-col[data-sort-key="ArtistName"]')
+    ? INDEX_SORT_STATE_KEY
+    : DETAILS_SORT_STATE_KEY;
+}
 let currentSort = { key: null, asc: true };
 
 function loadSortState() {
   try {
-    const saved = sessionStorage.getItem(SORT_STATE_KEY);
+    const saved = sessionStorage.getItem(getSortStateKey());
     if (!saved) return { key: null, asc: true };
 
     const parsed = JSON.parse(saved);
@@ -21,7 +28,7 @@ function loadSortState() {
 
 function saveSortState() {
   try {
-    sessionStorage.setItem(SORT_STATE_KEY, JSON.stringify(currentSort));
+    sessionStorage.setItem(getSortStateKey(), JSON.stringify(currentSort));
   } catch (error) {
     console.warn('Sort state could not be saved:', error);
   }
@@ -126,12 +133,22 @@ function sortTable(key, toggle = true) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  const isDetailsPage = document.querySelector('.sort-col[data-sort-key="ReleaseDate"]');
+
+  if (isDetailsPage) {
+    currentSort = { key: 'ReleaseDate', asc: true };
+    sortTable('ReleaseDate', false);
+    return;
+  }
+
   currentSort = loadSortState();
 
   if (currentSort.key) {
     sortTable(currentSort.key, false);
   } else if (document.querySelector('.sort-col[data-sort-key="ArtistName"]')) {
     sortTable('ArtistName', false);
+  } else if (document.querySelector('.sort-col[data-sort-key="ReleaseDate"]')) {
+    sortTable('ReleaseDate', false);
   } else {
     updateSortIcons(null);
   }
