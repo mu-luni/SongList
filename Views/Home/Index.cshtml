@@ -3,13 +3,13 @@
 
 @{
 	GroupListModel gItem = Model.groupList;
-	ViewData["Title"] = @gItem.GroupName + "歌った曲リスト";
+	ViewData["Title"] = @gItem.GroupName + "曲リスト";
 	ViewData["Description"] = @gItem.Description;
 }
 
 <!-- 検索フォーム -->
 <div class="top-form">
-	<h1 class="page-title">Fillnecode歌った曲リスト</h1>
+	<h1 class="page-title">Fillnecode曲リスト</h1>
 	<form method="post" asp-action="Index" Content-Type: text/html; charset=utf-8>
 		<div class="form-grid">
 			<!-- 曲名 -->
@@ -61,7 +61,8 @@
 		</div>
 		<!-- 検索ボタン -->
 		<div class="form-actions">
-			<button type="submit" class="btn-search">検索する</button>
+			<button type="submit" class="btn-search">検索</button>
+			<a asp-action="Index" class="btn-reset">リセット</a>
 		</div>			
 	</form>
 </div>

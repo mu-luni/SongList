@@ -147,6 +147,7 @@ body
 	margin-top: 24px;
 	display: flex;
 	justify-content: flex-end;
+	gap: 10px;
  }
 
 .btn-search
@@ -167,6 +168,30 @@ body
  {
 	transform: translateY(-1px);
 	box-shadow: 0 6px 16px rgba(79, 70, 229, 0.35);
+ }
+
+.btn-reset
+ {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 10px 24px;
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--text-sub);
+	background-color: #f1f5f9;
+	border: 1px solid #cbd5e1;
+	border-radius: 10px;
+	text-decoration: none;
+	cursor: pointer;
+	transition: all 0.2s ease;
+ }
+
+.btn-reset:hover
+ {
+	color: var(--text-main);
+	background-color: #e2e8f0;
+	transform: translateY(-1px);
  }
 
 /* 結果一覧パネル */
