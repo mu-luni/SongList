@@ -61,6 +61,11 @@
 		</div>
 		<!-- 検索ボタン -->
 		<div class="form-actions">
+			<label class="toggle-label">
+				<span class="toggle-status toggle-status-on">歌った曲</span>
+				<input type="checkbox" class="toggle-input" asp-for="searchCondition.IsSungOnly">
+				<span class="toggle-track" aria-hidden="true"><span class="toggle-thumb"></span></span>
+			</label>
 			<button type="submit" class="btn-search">検索</button>
 			<a asp-action="Index" class="btn-reset">リセット</a>
 		</div>			

@@ -34,6 +34,7 @@ namespace SongList.Models.ViewModels
         public string Genre { get; set; } = string.Empty;
         public string Tieup { get; set; } = string.Empty;
         public string Member { get; set; } = "01";
+        public bool IsSungOnly { get; set; } = true;
     }
     public class SongListModel
     {

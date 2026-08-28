@@ -146,8 +146,67 @@ body
  {
 	margin-top: 24px;
 	display: flex;
+	align-items: center;
 	justify-content: flex-end;
 	gap: 10px;
+ }
+
+.toggle-label
+ {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	margin-right: auto;
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--text-sub);
+	cursor: pointer;
+ }
+
+.toggle-input
+ {
+	position: absolute;
+	opacity: 0;
+	width: 1px;
+	height: 1px;
+ }
+
+.toggle-track
+ {
+	position: relative;
+	display: inline-flex;
+	width: 46px;
+	height: 26px;
+	padding: 3px;
+	border-radius: 999px;
+	background-color: #cbd5e1;
+	transition: background-color 0.2s ease;
+ }
+
+.toggle-thumb
+ {
+	display: block;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background-color: #fff;
+	box-shadow: 0 2px 5px rgba(15, 23, 42, 0.2);
+	transition: transform 0.2s ease;
+ }
+
+.toggle-input:checked + .toggle-track
+ {
+	background-color: var(--primary);
+ }
+
+.toggle-input:checked + .toggle-track .toggle-thumb
+ {
+	transform: translateX(20px);
+ }
+
+.toggle-input:focus-visible + .toggle-track
+ {
+	box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
  }
 
 .btn-search

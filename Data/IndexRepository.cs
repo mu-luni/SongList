@@ -126,8 +126,11 @@ namespace Index.Repository
                 sb.AppendLine("         group by sls.song_id ");
                 sb.AppendLine("       ) slst ");
                 sb.AppendLine("    on song.song_id = slst.song_id ");
-                sb.AppendLine(" where (song.sing_member ilike '%' || @srcMember || '%' ");
-                sb.AppendLine("    or slst.sung_count > 0 ");
+                sb.AppendLine(" where (slst.sung_count > 0 ");
+                if (!searchCondition.IsSungOnly)
+                {
+                    sb.AppendLine("    or  song.sing_member ilike '%' || @srcMember || '%' ");
+                }
                 sb.AppendLine("       ) ");
                 if (!string.IsNullOrEmpty(searchCondition.SongName))
                 {
