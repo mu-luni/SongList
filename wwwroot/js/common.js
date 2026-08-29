@@ -1,5 +1,22 @@
 const INDEX_SORT_STATE_KEY = 'songListIndexSortState';
 const DETAILS_SORT_STATE_KEY = 'songListDetailsSortState';
+let toastTimer = null;
+
+function showCopyToast(message) {
+  const toast = document.getElementById('copy-toast');
+  if (!toast) return;
+
+  toast.textContent = message;
+  toast.classList.add('show');
+
+  if (toastTimer) {
+    clearTimeout(toastTimer);
+  }
+
+  toastTimer = setTimeout(() => {
+    toast.classList.remove('show');
+  }, 1800);
+}
 
 function getSortStateKey() {
   return document.querySelector('.sort-col[data-sort-key="ArtistName"]')
@@ -131,6 +148,88 @@ function sortTable(key, toggle = true) {
   updateSortIcons(key);
   saveSortState();
 }
+
+function fallbackCopyText(text) {
+  const textarea = document.createElement('textarea');
+  textarea.value = text;
+  textarea.setAttribute('readonly', '');
+  textarea.style.position = 'fixed';
+  textarea.style.top = '-9999px';
+  textarea.style.left = '-9999px';
+  textarea.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(textarea);
+  textarea.focus();
+  textarea.select();
+  textarea.setSelectionRange(0, textarea.value.length);
+
+  try {
+    return navigator.clipboard && window.isSecureContext
+      ? navigator.clipboard.writeText(text).then(() => true).catch(() => false)
+      : false;
+  } catch (error) {
+    console.error('Clipboard fallback failed:', error);
+    return false;
+  } finally {
+    document.body.removeChild(textarea);
+  }
+}
+
+async function copyTextToClipboard(text) {
+  if (!text) return false;
+
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+  } catch (error) {
+    console.warn('Clipboard API failed:', error);
+  }
+
+  return await fallbackCopyText(text);
+}
+
+document.addEventListener('click', async (event) => {
+  const button = event.target.closest('.btn-copy');
+  if (!button) return;
+
+  event.preventDefault();
+
+  const text = button.dataset.copyText || '';
+  const originalHtml = button.innerHTML;
+
+  try {
+    const copied = await copyTextToClipboard(text);
+    if (!copied) {
+      button.classList.add('copy-error');
+      button.setAttribute('title', 'コピーに失敗しました');
+      button.setAttribute('aria-label', 'コピーに失敗しました');
+      showCopyToast('コピーに失敗しました');
+      setTimeout(() => {
+        button.classList.remove('copy-error');
+        button.setAttribute('title', 'コピー');
+        button.setAttribute('aria-label', '曲名とアーティスト名をコピー');
+        button.innerHTML = originalHtml;
+      }, 1200);
+      return;
+    }
+
+    button.classList.add('copied');
+    button.innerHTML = '<span aria-hidden="true">✓</span>';
+    button.setAttribute('title', 'コピーしました');
+    button.setAttribute('aria-label', 'コピーしました');
+    showCopyToast('コピーしました: ' + text);
+
+    setTimeout(() => {
+      button.classList.remove('copied');
+      button.setAttribute('title', 'コピー');
+      button.setAttribute('aria-label', '曲名とアーティスト名をコピー');
+      button.innerHTML = originalHtml;
+    }, 1200);
+  } catch (error) {
+    console.error('Copy button handler failed:', error);
+  }
+});
 
 document.addEventListener('DOMContentLoaded', () => {
   const isDetailsPage = document.querySelector('.sort-col[data-sort-key="ReleaseDate"]');

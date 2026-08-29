@@ -50,8 +50,13 @@ namespace SongList.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [EnableRateLimiting("ip-rate-limit")]
-        public IActionResult Index([Bind(Prefix = "searchCondition")] SearchCondition searchCondition)
+        public IActionResult Index([Bind(Prefix = "searchCondition")] SearchCondition searchCondition, bool randomize = false)
         {
+            if (randomize)
+            {
+                searchCondition.Randomize = true;
+            }
+
             var token = WebEncoders.Base64UrlEncode(RandomNumberGenerator.GetBytes(32));
             _Cache.Set($"index:{token}",searchCondition, TimeSpan.FromMinutes(10));
             return RedirectToAction(nameof(Index), new {token});

@@ -26,7 +26,7 @@
 			<div class="form-group">
 				<label class="field-label">ジャンル</label>
 				<select class="select-box" asp-for="searchCondition.Genre">
-					<option value="">--</option>
+					<option value="">すべて</option>
 					@foreach (var genre in Model.genreList)
 					{
 						@if (Model.searchCondition.Genre == genre.GenreCode)
@@ -47,26 +47,30 @@
 			</div>
 			<!-- メンバー -->
 			<div class="form-group full-width">
-				<label class="field-label">メンバー</label>
-				<div class="radio-group">
-					@foreach (var member in Model.memberList)
-					{
-						<label class="radio-label">
-							<input type="radio" asp-for="searchCondition.Member" value="@member.MemberCode"> @member.MemberName
+				<div class="member-row">
+					<label class="field-label">メンバー</label>
+					<div class="member-options">
+						<div class="radio-group">
+							@foreach (var member in Model.memberList)
+							{
+								<label class="radio-label">
+									<input type="radio" asp-for="searchCondition.Member" value="@member.MemberCode"> @member.MemberName
+								</label>
+							}
+						</div>
+						<label class="toggle-label toggle-inline">
+							<span class="toggle-status toggle-status-on">歌った曲</span>
+							<input type="checkbox" class="toggle-input" asp-for="searchCondition.IsSungOnly">
+							<span class="toggle-track" aria-hidden="true"><span class="toggle-thumb"></span></span>
 						</label>
-					}
+					</div>
 				</div>
-				
 			</div>
 		</div>
 		<!-- 検索ボタン -->
 		<div class="form-actions">
-			<label class="toggle-label">
-				<span class="toggle-status toggle-status-on">歌った曲</span>
-				<input type="checkbox" class="toggle-input" asp-for="searchCondition.IsSungOnly">
-				<span class="toggle-track" aria-hidden="true"><span class="toggle-thumb"></span></span>
-			</label>
 			<button type="submit" class="btn-search">検索</button>
+			<button type="submit" class="btn-random" name="randomize" value="true">ランダム</button>
 			<a asp-action="Index" class="btn-reset">リセット</a>
 		</div>			
 	</form>
@@ -89,14 +93,21 @@
 			@foreach (SongList.Models.ViewModels.SongListModel item in Model.songList)
 				{
 					<div class="list-item song-list-grid" data-song-name="@item.SongName" data-artist-name="@item.ArtistName" data-last-sung-date="@item.LastSungDate" data-sung-count="@item.SungCount">
-						<form method="post" asp-action="Details">
-							<div class="col-center">
-								<button type="submit" class="btn-detail">詳細</button>
-								<input type="hidden" name="songId" value="@item.SongId" />
-								<input type="hidden" name="memberCode" value="@item.MemberCode" />
+						<div class="col-center">
+							<div class="action-buttons">
+								<form method="post" asp-action="Details">
+									<button type="submit" class="btn-detail">詳細</button>
+									<input type="hidden" name="songId" value="@item.SongId" />
+									<input type="hidden" name="memberCode" value="@item.MemberCode" />
+								</form>
 							</div>
-						</form>
-						<div class="song-title">@item.SongName</div>
+						</div>
+						<div class="song-title">
+							<button type="button" class="btn-copy" data-copy-text="@item.SongName / @item.ArtistName" aria-label="曲名とアーティスト名をコピー" title="コピー">
+								<span aria-hidden="true">⧉</span>
+							</button>
+							@item.SongName
+						</div>
 						<div class="artist-name">@item.ArtistName</div>
 						<div class="last-sung-date">@item.LastSungDate</div>
 						<div class="col-count"><span class="count-badge">@item.SungCount 回</span></div>
@@ -104,4 +115,5 @@
 				}
 		</div>
 	</div>
+	<div id="copy-toast" class="copy-toast" aria-live="polite" aria-atomic="true">コピーしました</div>
 </div>

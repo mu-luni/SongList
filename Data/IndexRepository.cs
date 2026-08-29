@@ -127,55 +127,65 @@ namespace Index.Repository
                 sb.AppendLine("       ) slst ");
                 sb.AppendLine("    on song.song_id = slst.song_id ");
                 sb.AppendLine(" where (slst.sung_count > 0 ");
-                if (!searchCondition.IsSungOnly)
+                if (searchCondition.Randomize)
                 {
-                    sb.AppendLine("    or  song.sing_member ilike '%' || @srcMember || '%' ");
-                }
-                sb.AppendLine("       ) ");
-                if (!string.IsNullOrEmpty(searchCondition.SongName))
-                {
-                    sb.AppendLine("   and (song.song_name ilike '%' || @srcSong || '%' ");
-                    sb.AppendLine("    or  song.song_kana ilike '%' || to_kana(@srcSong) || '%' ");
                     sb.AppendLine("       ) ");
+                    sb.AppendLine(" order by random() limit 1 ");
                 }
-                if (!string.IsNullOrEmpty(searchCondition.ArtistName))
+                else
                 {
-                    sb.AppendLine("   and (song.artist_name ilike '%' || @srcArtist || '%' ");
-                    sb.AppendLine("    or  song.artist_kana ilike '%' || to_kana(@srcArtist) || '%' ");
+                    if (!searchCondition.IsSungOnly)
+                    {
+                        sb.AppendLine("    or  song.sing_member ilike '%' || @srcMember || '%' ");
+                    }
                     sb.AppendLine("       ) ");
+                    if (!string.IsNullOrEmpty(searchCondition.SongName))
+                    {
+                        sb.AppendLine("   and (song.song_name ilike '%' || @srcSong || '%' ");
+                        sb.AppendLine("    or  song.song_kana ilike '%' || to_kana(@srcSong) || '%' ");
+                        sb.AppendLine("       ) ");
+                    }
+                    if (!string.IsNullOrEmpty(searchCondition.ArtistName))
+                    {
+                        sb.AppendLine("   and (song.artist_name ilike '%' || @srcArtist || '%' ");
+                        sb.AppendLine("    or  song.artist_kana ilike '%' || to_kana(@srcArtist) || '%' ");
+                        sb.AppendLine("       ) ");
+                    }
+                    if (!string.IsNullOrEmpty(searchCondition.Genre))
+                    {
+                        sb.AppendLine("   and @srcGenre in (song.genre_code1, song.genre_code2, song.genre_code3, song.genre_code4, song.genre_code5) ");
+                    }
+                    if (!string.IsNullOrEmpty(searchCondition.Tieup))
+                    {
+                        sb.AppendLine("   and (song.tieup_name ilike '%' || @srcTieup || '%' ");
+                        sb.AppendLine("    or  song.tieup_kana ilike '%' || to_kana(@srcTieup) || '%' ");
+                        sb.AppendLine("       ) ");
+                    }
+                    sb.AppendLine(" order by song.artist_name ");
                 }
-                if (!string.IsNullOrEmpty(searchCondition.Genre))
-                {
-                    sb.AppendLine("   and @srcGenre in (song.genre_code1, song.genre_code2, song.genre_code3, song.genre_code4, song.genre_code5) ");
-                }
-                if (!string.IsNullOrEmpty(searchCondition.Tieup))
-                {
-                    sb.AppendLine("   and (song.tieup_name ilike '%' || @srcTieup || '%' ");
-                    sb.AppendLine("    or  song.tieup_kana ilike '%' || to_kana(@srcTieup) || '%' ");
-                    sb.AppendLine("       ) ");
-                }
-                sb.AppendLine(" order by song.artist_name ");
 
                 using (var cmd = new NpgsqlCommand(sb.ToString(), conn))
                 {
                     cmd.Parameters.Add("@srcMember", NpgsqlTypes.NpgsqlDbType.Varchar, 2).Value = searchCondition.Member;
-                    if (!string.IsNullOrEmpty(searchCondition.SongName))
+                    if (!searchCondition.Randomize)
                     {
-                        cmd.Parameters.Add("@srcSong", NpgsqlTypes.NpgsqlDbType.Varchar, 500).Value = searchCondition.SongName;
+                        if (!string.IsNullOrEmpty(searchCondition.SongName))
+                        {
+                            cmd.Parameters.Add("@srcSong", NpgsqlTypes.NpgsqlDbType.Varchar, 500).Value = searchCondition.SongName;
+                        }
+                        if (!string.IsNullOrEmpty(searchCondition.ArtistName))
+                        {
+                            cmd.Parameters.Add("@srcArtist", NpgsqlTypes.NpgsqlDbType.Varchar, 500).Value = searchCondition.ArtistName;
+                        }
+                        if (!string.IsNullOrEmpty(searchCondition.Genre))
+                        {
+                            cmd.Parameters.Add("@srcGenre", NpgsqlTypes.NpgsqlDbType.Varchar, 500).Value = searchCondition.Genre;
+                        }
+                        if (!string.IsNullOrEmpty(searchCondition.Tieup))
+                        {
+                            cmd.Parameters.Add("@srcTieup", NpgsqlTypes.NpgsqlDbType.Varchar, 500).Value = searchCondition.Tieup;
+                        }
                     }
-                    if (!string.IsNullOrEmpty(searchCondition.ArtistName))
-                    {
-                        cmd.Parameters.Add("@srcArtist", NpgsqlTypes.NpgsqlDbType.Varchar, 500).Value = searchCondition.ArtistName;
-                    }
-                    if (!string.IsNullOrEmpty(searchCondition.Genre))
-                    {
-                        cmd.Parameters.Add("@srcGenre", NpgsqlTypes.NpgsqlDbType.Varchar, 500).Value = searchCondition.Genre;
-                    }
-                    if (!string.IsNullOrEmpty(searchCondition.Tieup))
-                    {
-                        cmd.Parameters.Add("@srcTieup", NpgsqlTypes.NpgsqlDbType.Varchar, 500).Value = searchCondition.Tieup;
-                    }
-
                     using (var reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())

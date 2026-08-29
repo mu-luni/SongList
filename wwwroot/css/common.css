@@ -110,11 +110,28 @@ body
 	color: var(--text-main);
 	outline: none;
  } 
+.member-row
+ {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+ }
+
+.member-options
+ {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	flex-wrap: wrap;
+ }
+
 .radio-group
  {
 	display: flex;
 	gap: 10px;
 	flex-wrap: wrap;
+	flex: 1 1 auto;
  }
 
 .radio-label
@@ -144,7 +161,7 @@ body
 
 .form-actions
  {
-	margin-top: 24px;
+	margin-top: 16px;
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
@@ -156,11 +173,16 @@ body
 	display: inline-flex;
 	align-items: center;
 	gap: 8px;
-	margin-right: auto;
 	font-size: 13px;
 	font-weight: 600;
 	color: var(--text-sub);
 	cursor: pointer;
+	padding: 6px 10px;
+ }
+
+.toggle-inline
+ {
+	margin-left: auto;
  }
 
 .toggle-input
@@ -229,6 +251,27 @@ body
 	box-shadow: 0 6px 16px rgba(79, 70, 229, 0.35);
  }
 
+.btn-random
+ {
+	padding: 10px 20px;
+	font-size: 14px;
+	font-weight: 600;
+	color: #374151;
+	background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+	border: 1px solid #cbd5e1;
+	border-radius: 10px;
+	cursor: pointer;
+	box-shadow: 0 4px 12px rgba(148, 163, 184, 0.18);
+	transition: all 0.2s ease;
+ }
+
+.btn-random:hover
+ {
+	transform: translateY(-1px);
+	box-shadow: 0 6px 16px rgba(148, 163, 184, 0.24);
+	background: linear-gradient(135deg, #dfe7f4 0%, #c9d7ee 100%);
+ }
+
 .btn-reset
  {
 	display: inline-flex;
@@ -261,6 +304,31 @@ body
 	box-shadow: var(--shadow-md);
 	border: 1px solid #e2e8f0;
 	overflow: hidden;
+ }
+
+.copy-toast
+ {
+	position: fixed;
+	top: 24px;
+	right: 24px;
+	z-index: 2000;
+	padding: 12px 18px;
+	border-radius: 12px;
+	background: rgba(15, 23, 42, 0.9);
+	color: #ffffff;
+	font-size: 14px;
+	font-weight: 600;
+	box-shadow: 0 10px 30px rgba(15, 23, 42, 0.2);
+	opacity: 0;
+	pointer-events: none;
+	transform: translateY(-10px);
+	transition: opacity 0.2s ease, transform 0.2s ease;
+ }
+
+.copy-toast.show
+ {
+	opacity: 1;
+	transform: translateY(0);
  }
 
 .result-info-bar
@@ -354,6 +422,14 @@ body
 	text-align: center;
  }
 
+.action-buttons
+ {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+ }
+
 .list-item
  {
 	border-bottom: 1px solid var(--border-color);
@@ -394,10 +470,45 @@ body
 	border-radius: 9999px;
  }
 
+.btn-copy
+ {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	padding: 0;
+	font-size: 14px;
+	font-weight: 700;
+	color: #0f766e;
+	background-color: #ccfbf1;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: all 0.2s ease;
+ }
+
+.btn-copy:hover
+ {
+	background-color: #99f6e4;
+	transform: translateY(-1px);
+ }
+
+.btn-copy.copied
+ {
+	background-color: #22c55e;
+	color: #ffffff;
+ }
+
+.btn-copy.copy-error
+ {
+	background-color: #fee2e2;
+	color: #b91c1c;
+ }
+
 .btn-detail
  {
 	padding: 6px 10px;
-	margin-right: 3px;
 	font-size: 12px;
 	font-weight: 600;
 	color: var(--primary);
