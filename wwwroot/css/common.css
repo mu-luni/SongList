@@ -601,6 +601,38 @@ body
 	border: 1px solid #dbeafe;
  }
 
+/* アニソン等 */
+.status-badge.anison
+ {
+	background-color: #fef2f2;
+	color: #b91c1c;
+	border: 1px solid #fee2e2;
+ }
+
+/* ジブリ（アースグリーン） */
+.status-badge.ghibli
+ {
+	background-color: #f4f7ed;
+	color: #3f6212;
+	border: 1px solid #d9e3c4;
+ }
+
+/* ボカロ */
+.status-badge.vocaloid
+ {
+	background-color: #f0fdf4;
+	color: #15803d;
+	border: 1px solid #dcfce7;
+ }
+
+/* オリジナル曲 */
+.status-badge.original
+ {
+	background-color: #fefce8;
+	color: #a16207;
+	border: 1px solid #fef08a;
+ }
+
 /* Vtuber */
 .status-badge.vtuber
  {
@@ -615,30 +647,6 @@ body
 	background-color: #fdf2f8;
 	color: #be185d;
 	border: 1px solid #fce7f3;
- }
-
-/* アニソン等 */
-.status-badge.anison
- {
-	background-color: #fef2f2;
-	color: #b91c1c;
-	border: 1px solid #fee2e2;
- }
-
-/* オリジナル曲 */
-.status-badge.original
- {
-	background-color: #fefce8;
-	color: #a16207;
-	border: 1px solid #fef08a;
- }
-
-/* ボカロ */
-.status-badge.vocaloid
- {
-	background-color: #f0fdf4;
-	color: #15803d;
-	border: 1px solid #dcfce7;
  }
 
 /* 歌い手 */
