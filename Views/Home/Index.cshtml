@@ -14,13 +14,19 @@
 		<div class="form-grid">
 			<!-- 曲名 -->
 			<div class="form-group">
-				<label class="field-label">曲名</label>
-				<input type="text" class="input-text" placeholder="曲名を入力" asp-for="searchCondition.SongName">
+				<div class="field-label-row">
+					<label class="field-label">曲名</label>
+					<span class="field-tooltip" tabindex="0" aria-label="読みで入力する場合は句読点や記号は不要">?</span>
+				</div>
+				<input type="text" class="input-text" placeholder="曲名を入力" asp-for="searchCondition.SongName" title="読みで入力する場合は句読点や記号は不要">
 			</div>
 			<!-- アーティスト名 -->
 			<div class="form-group">
-				<label class="field-label">アーティスト名</label>
-				<input type="text" class="input-text" placeholder="アーティスト名を入力" asp-for="searchCondition.ArtistName">
+				<div class="field-label-row">
+					<label class="field-label">アーティスト名</label>
+					<span class="field-tooltip" tabindex="0" aria-label="読みで入力する場合は句読点や記号は不要">?</span>
+				</div>
+				<input type="text" class="input-text" placeholder="アーティスト名を入力" asp-for="searchCondition.ArtistName" title="読みで入力する場合は句読点や記号は不要">
 			</div>
 			<!-- ジャンル -->
 			<div class="form-group">
@@ -42,8 +48,11 @@
 			</div>
 			<!-- タイアップ -->
 			<div class="form-group">
-				<label class="field-label">タイアップ</label>
-				<input type="text" class="input-text" placeholder="作品名などを入力" asp-for="searchCondition.Tieup">
+				<div class="field-label-row">
+					<label class="field-label">タイアップ</label>
+					<span class="field-tooltip" tabindex="0" aria-label="読みで入力する場合は句読点や記号は不要">?</span>
+				</div>
+				<input type="text" class="input-text" placeholder="作品名などを入力" asp-for="searchCondition.Tieup" title="読みで入力する場合は句読点や記号は不要">
 			</div>
 			<!-- メンバー -->
 			<div class="form-group full-width">

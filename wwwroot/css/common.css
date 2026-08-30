@@ -74,11 +74,73 @@ body
 	grid-column: span 2;
  }
 
+.field-label-row
+ {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+ }
+
 .field-label
  {
 	font-size: 13px;
 	font-weight: 600;
 	color: var(--text-sub);
+ }
+
+.field-tooltip
+ {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	background: linear-gradient(135deg, #c7d2fe 0%, #818cf8 100%);
+	color: #ffffff;
+	font-size: 11px;
+	font-weight: 700;
+	cursor: help;
+	box-shadow: 0 4px 12px rgba(129, 140, 248, 0.25);
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+ }
+
+.field-tooltip:hover,
+.field-tooltip:focus-visible
+ {
+	transform: translateY(-1px);
+	box-shadow: 0 6px 14px rgba(129, 140, 248, 0.35);
+ }
+
+.field-tooltip::after
+ {
+	content: "読みで入力する場合は句読点や記号は不要";
+	position: absolute;
+	left: calc(100% + 8px);
+	top: 50%;
+	transform: translateY(-50%) translateX(-2px);
+	padding: 8px 10px;
+	border-radius: 10px;
+	background: rgba(30, 41, 59, 0.94);
+	color: #eef2ff;
+	font-size: 11px;
+	line-height: 1.4;
+	white-space: nowrap;
+	overflow: visible;
+	max-width: none;
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.2s ease, transform 0.2s ease;
+	box-shadow: 0 10px 22px rgba(15, 23, 42, 0.18);
+	border: 1px solid rgba(165, 180, 252, 0.25);
+ }
+
+.field-tooltip:hover::after,
+.field-tooltip:focus-visible::after
+ {
+	opacity: 1;
+	transform: translateY(-50%) translateX(0);
  }
 
 .input-text, .select-box
