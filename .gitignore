@@ -1,0 +1,5 @@
+//git除外設定
+bin/
+obj/
+appsettings.Development.json
+appsettings.json
