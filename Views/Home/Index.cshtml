@@ -95,6 +95,7 @@
 			<div class="col-center">詳細</div>
 			<div class="sort-col" data-sort-key="SongName" onclick="sortTable('SongName')">曲名<span id="icon-title">↕</span></div>
 			<div class="sort-col" data-sort-key="ArtistName" onclick="sortTable('ArtistName')">アーティスト名 <span id="icon-artist">↕</span></div>
+			<div aria-hidden="true"></div>
 			<div class="sort-col" data-sort-key="LastSungDate" onclick="sortTable('LastSungDate')">最終歌唱日 <span id="icon-lastsungdate">↕</span></div>
 			<div class="sort-col col-count" data-sort-key="SungCount" onclick="sortTable('SungCount')">歌唱回数 <span id="icon-count">↕</span></div>
 		</div>
@@ -105,21 +106,62 @@
 						<div class="col-center">
 							<div class="action-buttons">
 								<form method="post" asp-action="Details">
-									<button type="submit" class="btn-detail">詳細</button>
+									@if (!string.IsNullOrWhiteSpace(item.LastSungDate))
+									{
+										<button type="submit" class="btn-detail">詳細</button>
+									}
 									<input type="hidden" name="songId" value="@item.SongId" />
 									<input type="hidden" name="memberCode" value="@item.MemberCode" />
 								</form>
 							</div>
 						</div>
 						<div class="song-title">
-							<button type="button" class="btn-copy" data-copy-text="@item.SongName / @item.ArtistName" aria-label="曲名とアーティスト名をコピー" title="コピー">
-								<span aria-hidden="true">⧉</span>
-							</button>
-							@item.SongName
+							<div class="song-name-row">
+								<button type="button" class="btn-copy" data-copy-text="@item.SongName / @item.ArtistName" aria-label="曲名とアーティスト名をコピー" title="コピー">
+									<span aria-hidden="true">⧉</span>
+								</button>
+								<span class="song-name">@item.SongName</span>
+								@if (!string.IsNullOrWhiteSpace(item.TieupName))
+								{
+									<small class="song-tieup">（@item.TieupName）</small>
+								}
+							</div>
 						</div>
 						<div class="artist-name">@item.ArtistName</div>
+						<div class="genre-list">
+							@{
+								var genreMappings = new Dictionary<string, string>
+								{
+									{ "01", "jpop" },
+									{ "02", "anison" },
+									{ "03", "ghibli" },
+									{ "04", "vocaloid" },
+									{ "05", "original" },
+									{ "06", "vtuber" },
+									{ "07", "idol" },
+									{ "08", "utaite" },
+									{ "09", "chorus" },
+									{ "10", "doyo" },
+									{ "11", "enka" },
+									{ "12", "western" }
+								};
+								var codes = item.GenreCode.Split(separator: '\t', StringSplitOptions.TrimEntries);
+								var names = item.GenreName.Split(separator: '\t', StringSplitOptions.TrimEntries);
+							}
+							@foreach (var (code, name) in codes.Zip(names))
+							{
+								var className = genreMappings.TryGetValue(code, out var value) ? value : "jpop";
+								<span class="status-badge @className">@name</span>
+							}
+						</div>
 						<div class="last-sung-date">@item.LastSungDate</div>
-						<div class="col-count"><span class="count-badge">@item.SungCount 回</span></div>
+						<div class="col-count">
+							@if (!string.IsNullOrWhiteSpace(item.LastSungDate))
+							{
+								<span class="mobile-last-sung-date">最終：@item.LastSungDate</span>
+							}
+							<span class="count-badge">@item.SungCount 回</span>
+						</div>
 					</div>
 				}
 		</div>

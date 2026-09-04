@@ -45,8 +45,14 @@ namespace SongList.Models.ViewModels
         public string MemberCode { get; set; } = string.Empty;
         [DisplayName("曲名")]
         public string SongName { get; set; } = string.Empty;
+        [DisplayName("タイアップ")]
+        public string TieupName { get; set; } = string.Empty;
         [DisplayName("アーティスト名")]
         public string ArtistName { get; set; } = string.Empty;
+        [DisplayName("ジャンルコード")]
+        public string GenreCode { get; set; } = string.Empty;
+        [DisplayName("ジャンル名")]
+        public string GenreName { get; set; } = string.Empty;
         [DisplayName("最終歌唱日")]
         public string LastSungDate { get; set; } = string.Empty;
         [DisplayName("歌唱回数")]

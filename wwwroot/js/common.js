@@ -235,7 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const isDetailsPage = document.querySelector('.sort-col[data-sort-key="ReleaseDate"]');
 
   if (isDetailsPage) {
-    currentSort = { key: 'ReleaseDate', asc: true };
+    currentSort = { key: 'ReleaseDate', asc: false };
     sortTable('ReleaseDate', false);
     return;
   }

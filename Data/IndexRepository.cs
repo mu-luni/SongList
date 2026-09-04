@@ -109,10 +109,33 @@ namespace Index.Repository
                 sb.AppendLine("select song.song_id ");
                 sb.AppendLine("     , @srcMember as member_code ");
                 sb.AppendLine("     , song.song_name ");
+                sb.AppendLine("     , coalesce(song.tieup_name, '') as tieup_name ");
                 sb.AppendLine("     , song.artist_name ");
+                sb.AppendLine("     , coalesce(song.genre_code1, '')");
+                sb.AppendLine("       || coalesce(E'\\t' || song.genre_code2, '') ");
+                sb.AppendLine("       || coalesce(E'\\t' || song.genre_code3, '') ");
+                sb.AppendLine("       || coalesce(E'\\t' || song.genre_code4, '') ");
+                sb.AppendLine("       || coalesce(E'\\t' || song.genre_code5, '') ");
+                sb.AppendLine("       as genre_code ");
+                sb.AppendLine("     , coalesce(sgen1.genre_name, '')");
+                sb.AppendLine("       || coalesce(E'\\t' || sgen2.genre_name, '') ");
+                sb.AppendLine("       || coalesce(E'\\t' || sgen3.genre_name, '') ");
+                sb.AppendLine("       || coalesce(E'\\t' || sgen4.genre_name, '') ");
+                sb.AppendLine("       || coalesce(E'\\t' || sgen5.genre_name, '') ");
+                sb.AppendLine("       as genre_name ");
                 sb.AppendLine("     , coalesce(to_char(slst.last_sung_date, 'YYYY-MM-DD'), '') as last_sung_date ");
                 sb.AppendLine("     , coalesce(slst.sung_count, 0) as sung_count ");
                 sb.AppendLine("  from song_list song ");
+                sb.AppendLine(" left join song_genre_list sgen1 ");
+                sb.AppendLine("    on song.genre_code1 = sgen1.genre_code ");
+                sb.AppendLine(" left join song_genre_list sgen2 ");
+                sb.AppendLine("    on song.genre_code2 = sgen2.genre_code ");
+                sb.AppendLine(" left join song_genre_list sgen3 ");
+                sb.AppendLine("    on song.genre_code3 = sgen3.genre_code ");
+                sb.AppendLine(" left join song_genre_list sgen4 ");
+                sb.AppendLine("    on song.genre_code4 = sgen4.genre_code ");
+                sb.AppendLine(" left join song_genre_list sgen5 ");
+                sb.AppendLine("    on song.genre_code5 = sgen5.genre_code ");
                 sb.AppendLine(" left join ");
                 sb.AppendLine("       (select sls.song_id ");
                 sb.AppendLine("             , max(stl.release_date) as last_sung_date ");
@@ -194,9 +217,12 @@ namespace Index.Repository
                                 SongId = reader.GetInt64(0),
                                 MemberCode = reader.GetString(1),
                                 SongName = reader.GetString(2),
-                                ArtistName = reader.GetString(3),
-                                LastSungDate = reader.GetString(4),
-                                SungCount = reader.GetInt32(5)
+                                TieupName = reader.GetString(3),
+                                ArtistName = reader.GetString(4),
+                                GenreCode = reader.GetString(5),
+                                GenreName = reader.GetString(6),
+                                LastSungDate = reader.GetString(7),
+                                SungCount = reader.GetInt32(8)
                             });
                         }
                     }
