@@ -65,6 +65,11 @@ body
 	display: none;
  }
 
+.mobile-details-toggle
+ {
+	display: none;
+ }
+
 .search-form-fields
  {
 	display: block;
@@ -896,6 +901,32 @@ body
 		border-radius: 999px;
 		box-shadow: 0 2px 6px rgba(79, 70, 229, 0.12);
 		cursor: pointer;
+	 }
+	.mobile-details-toggle
+	 {
+		display: flex;
+		align-items: center;
+		gap: 4px;
+		width: auto;
+		padding: 5px 9px;
+		font-size: 11px;
+		font-weight: 700;
+		color: var(--primary-hover);
+		background: #eef0ff;
+		border: 1px solid #dfe3ff;
+		border-radius: 999px;
+		box-shadow: 0 2px 6px rgba(79, 70, 229, 0.12);
+		cursor: pointer;
+	 }
+	.mobile-details-toggle-icon
+	 {
+		font-size: 13px;
+		font-weight: 700;
+		line-height: 1;
+	 }
+	.details-info-fields[hidden]
+	 {
+		display: none;
 	 }
 	.page-title-row
 	 {

@@ -7,7 +7,14 @@
 
 <!-- 曲情報 -->
 <div class="top-form">
-	<h1 class="page-title">@Model.DtlMemberName<span>の配信リスト</span></h1>
+	<div class="page-title-row">
+		<h1 class="page-title">@Model.DtlMemberName<span>の配信リスト</span></h1>
+		<button type="button" class="mobile-details-toggle" aria-expanded="true" aria-controls="details-info-fields">
+			<span class="mobile-details-toggle-icon" aria-hidden="true">≡</span>
+			<span class="mobile-details-toggle-label">閉じる</span>
+		</button>
+	</div>
+	<div id="details-info-fields" class="details-info-fields">
 	<div class="form-grid">
 		<!-- 曲名 -->
 		<div class="form-group">
@@ -56,6 +63,7 @@
 			<label class="field-label">タイアップ</label>
 			<div class="display-text"><span>@Model.DtlTieupName</span></div>
 		</div>
+	</div>
 	</div>
 </div>
 <!-- 配信一覧 -->

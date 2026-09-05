@@ -151,6 +151,21 @@ function bindMobileSearchToggle() {
   });
 }
 
+function bindMobileDetailsToggle() {
+  const toggle = document.querySelector('.mobile-details-toggle');
+  const fields = document.getElementById('details-info-fields');
+  if (!toggle || !fields) return;
+
+  toggle.addEventListener('click', () => {
+    const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+    fields.hidden = isExpanded;
+    toggle.setAttribute('aria-expanded', String(!isExpanded));
+    toggle.querySelector('.mobile-details-toggle-label').textContent = isExpanded
+      ? '曲情報'
+      : '閉じる';
+  });
+}
+
 function bindSortHeaders() {
   document.querySelectorAll('.sort-col').forEach(header => {
     // 二重登録防止（一度既存のリスナーを解除）
@@ -288,6 +303,7 @@ document.addEventListener('click', async (event) => {
 
 document.addEventListener('DOMContentLoaded', () => {
   bindMobileSearchToggle();
+  bindMobileDetailsToggle();
   bindMobileSortControls();
   const isDetailsPage = document.querySelector('.sort-col[data-sort-key="ReleaseDate"]');
 
