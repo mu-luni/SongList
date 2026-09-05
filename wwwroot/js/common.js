@@ -124,6 +124,33 @@ function bindMobileSortControls() {
   });
 }
 
+function bindMobileSearchToggle() {
+  const toggle = document.querySelector('.mobile-search-toggle');
+  const fields = document.getElementById('search-form-fields');
+  if (!toggle || !fields) return;
+
+  const mobileQuery = window.matchMedia('(max-width: 640px)');
+  const setVisibility = isCollapsed => {
+    fields.hidden = isCollapsed;
+    toggle.setAttribute('aria-expanded', String(!isCollapsed));
+    toggle.querySelector('.mobile-search-toggle-label').textContent = isCollapsed
+      ? '絞り込み'
+      : '閉じる';
+  };
+
+  setVisibility(false);
+  mobileQuery.addEventListener('change', () => setVisibility(false));
+
+  toggle.addEventListener('click', () => {
+    const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+    fields.hidden = isExpanded;
+    toggle.setAttribute('aria-expanded', String(!isExpanded));
+    toggle.querySelector('.mobile-search-toggle-label').textContent = isExpanded
+      ? '絞り込み'
+      : '閉じる';
+  });
+}
+
 function bindSortHeaders() {
   document.querySelectorAll('.sort-col').forEach(header => {
     // 二重登録防止（一度既存のリスナーを解除）
@@ -260,6 +287,7 @@ document.addEventListener('click', async (event) => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
+  bindMobileSearchToggle();
   bindMobileSortControls();
   const isDetailsPage = document.querySelector('.sort-col[data-sort-key="ReleaseDate"]');
 

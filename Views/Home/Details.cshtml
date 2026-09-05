@@ -60,24 +60,24 @@
 </div>
 <!-- 配信一覧 -->
 <div class="result-form">
+	<div class="mobile-sort-controls" aria-label="一覧の並び替え">
+		<label class="mobile-sort-control">
+			<span>並び順</span>
+			<select class="select-box mobile-sort-key">
+				<option value="ReleaseDate">配信日</option>
+				<option value="LimitedName">限定</option>
+			</select>
+		</label>
+		<label class="mobile-sort-control">
+			<select class="select-box mobile-sort-direction">
+				<option value="asc">昇順</option>
+				<option value="desc">降順</option>
+			</select>
+		</label>
+	</div>
 	<!-- 件数バー -->
 	<div class="result-info-bar">
 		<span class="result-count">該当件数: <strong>@Model.ListCount</strong> 件</span>
-		<div class="mobile-sort-controls" aria-label="一覧の並び替え">
-			<label class="mobile-sort-control">
-				<span>並び順</span>
-				<select class="select-box mobile-sort-key">
-					<option value="ReleaseDate">配信日</option>
-					<option value="LimitedName">限定</option>
-				</select>
-			</label>
-			<label class="mobile-sort-control">
-				<select class="select-box mobile-sort-direction">
-					<option value="asc">昇順</option>
-					<option value="desc">降順</option>
-				</select>
-			</label>
-		</div>
 	</div>
 	<div class="list-container">
 		<div class="list-header stream-list-grid">

@@ -55,6 +55,21 @@ body
 	color: var(--text-main);
  }
 
+.page-title-row
+ {
+	display: block;
+ }
+
+.mobile-search-toggle
+ {
+	display: none;
+ }
+
+.search-form-fields
+ {
+	display: block;
+ }
+
 .form-grid
  {
 	display: grid;
@@ -866,6 +881,44 @@ body
 /* レスポンシブ対応 */
 @media (max-width: 640px)
  {
+	.mobile-search-toggle
+	 {
+		display: flex;
+		align-items: center;
+		gap: 4px;
+		width: auto;
+		padding: 5px 9px;
+		font-size: 11px;
+		font-weight: 700;
+		color: var(--primary-hover);
+		background: #eef0ff;
+		border: 1px solid #dfe3ff;
+		border-radius: 999px;
+		box-shadow: 0 2px 6px rgba(79, 70, 229, 0.12);
+		cursor: pointer;
+	 }
+	.page-title-row
+	 {
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		gap: 8px;
+		margin-bottom: 16px;
+	 }
+	.page-title-row .page-title
+	 {
+		margin-bottom: 0;
+	 }
+	.mobile-search-toggle-icon
+	 {
+		font-size: 13px;
+		font-weight: 700;
+		line-height: 1;
+	 }
+	.search-form-fields[hidden]
+	 {
+		display: none;
+	 }
 	.result-info-bar
 	 {
 		align-items: center;

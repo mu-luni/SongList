@@ -9,8 +9,15 @@
 
 <!-- 検索フォーム -->
 <div class="top-form">
-	<h1 class="page-title">Fillnecode曲リスト</h1>
+	<div class="page-title-row">
+		<h1 class="page-title">Fillnecode曲リスト</h1>
+		<button type="button" class="mobile-search-toggle" aria-expanded="false" aria-controls="search-form-fields">
+			<span class="mobile-search-toggle-icon" aria-hidden="true">≡</span>
+			<span class="mobile-search-toggle-label">絞り込み</span>
+		</button>
+	</div>
 	<form method="post" asp-action="Index" Content-Type: text/html; charset=utf-8>
+		<div id="search-form-fields" class="search-form-fields">
 		<div class="form-grid">
 			<!-- 曲名 -->
 			<div class="form-group">
@@ -76,36 +83,37 @@
 				</div>
 			</div>
 		</div>
-		<!-- 検索ボタン -->
-		<div class="form-actions">
-			<button type="submit" class="btn-search">検索</button>
-			<button type="submit" class="btn-random" name="randomize" value="true">ランダム</button>
-			<a asp-action="Index" class="btn-reset">リセット</a>
+			<!-- 検索ボタン -->
+			<div class="form-actions">
+				<button type="submit" class="btn-search">検索</button>
+				<button type="submit" class="btn-random" name="randomize" value="true">ランダム</button>
+				<a asp-action="Index" class="btn-reset">リセット</a>
+			</div>
 		</div>			
 	</form>
 </div>
 <!-- 曲一覧 -->
 <div class="result-form">
+	<div class="mobile-sort-controls" aria-label="一覧の並び替え">
+		<label class="mobile-sort-control">
+			<span>並び順</span>
+			<select class="select-box mobile-sort-key">
+				<option value="SongName">曲名</option>
+				<option value="ArtistName">アーティスト名</option>
+				<option value="LastSungDate">最終歌唱日</option>
+				<option value="SungCount">歌唱回数</option>
+			</select>
+		</label>
+		<label class="mobile-sort-control">
+			<select class="select-box mobile-sort-direction">
+				<option value="asc">昇順</option>
+				<option value="desc">降順</option>
+			</select>
+		</label>
+	</div>
 	<!-- 件数バー -->
 	<div class="result-info-bar">
 		<span class="result-count">該当件数: <strong>@Model.ListCount</strong> 件</span>
-		<div class="mobile-sort-controls" aria-label="一覧の並び替え">
-			<label class="mobile-sort-control">
-				<span>並び順</span>
-				<select class="select-box mobile-sort-key">
-					<option value="SongName">曲名</option>
-					<option value="ArtistName">アーティスト名</option>
-					<option value="LastSungDate">最終歌唱日</option>
-					<option value="SungCount">歌唱回数</option>
-				</select>
-			</label>
-			<label class="mobile-sort-control">
-				<select class="select-box mobile-sort-direction">
-					<option value="asc">昇順</option>
-					<option value="desc">降順</option>
-				</select>
-			</label>
-		</div>
 	</div>
 	<div class="list-container">
 		<div class="list-header song-list-grid">
