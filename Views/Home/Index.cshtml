@@ -16,7 +16,7 @@
 			<div class="form-group">
 				<div class="field-label-row">
 					<label class="field-label">曲名</label>
-					<span class="field-tooltip" tabindex="0" aria-label="読みで入力する場合は句読点や記号は不要">?</span>
+					<span class="field-tooltip" aria-label="読みで入力する場合は句読点や記号は不要">?</span>
 				</div>
 				<input type="text" class="input-text" placeholder="曲名を入力" asp-for="searchCondition.SongName" title="読みで入力する場合は句読点や記号は不要">
 			</div>
@@ -24,7 +24,7 @@
 			<div class="form-group">
 				<div class="field-label-row">
 					<label class="field-label">アーティスト名</label>
-					<span class="field-tooltip" tabindex="0" aria-label="読みで入力する場合は句読点や記号は不要">?</span>
+					<span class="field-tooltip" aria-label="読みで入力する場合は句読点や記号は不要">?</span>
 				</div>
 				<input type="text" class="input-text" placeholder="アーティスト名を入力" asp-for="searchCondition.ArtistName" title="読みで入力する場合は句読点や記号は不要">
 			</div>
@@ -50,7 +50,7 @@
 			<div class="form-group">
 				<div class="field-label-row">
 					<label class="field-label">タイアップ</label>
-					<span class="field-tooltip" tabindex="0" aria-label="読みで入力する場合は句読点や記号は不要">?</span>
+					<span class="field-tooltip" aria-label="読みで入力する場合は句読点や記号は不要">?</span>
 				</div>
 				<input type="text" class="input-text" placeholder="作品名などを入力" asp-for="searchCondition.Tieup" title="読みで入力する場合は句読点や記号は不要">
 			</div>
@@ -89,6 +89,23 @@
 	<!-- 件数バー -->
 	<div class="result-info-bar">
 		<span class="result-count">該当件数: <strong>@Model.ListCount</strong> 件</span>
+		<div class="mobile-sort-controls" aria-label="一覧の並び替え">
+			<label class="mobile-sort-control">
+				<span>並び順</span>
+				<select class="select-box mobile-sort-key">
+					<option value="SongName">曲名</option>
+					<option value="ArtistName">アーティスト名</option>
+					<option value="LastSungDate">最終歌唱日</option>
+					<option value="SungCount">歌唱回数</option>
+				</select>
+			</label>
+			<label class="mobile-sort-control">
+				<select class="select-box mobile-sort-direction">
+					<option value="asc">昇順</option>
+					<option value="desc">降順</option>
+				</select>
+			</label>
+		</div>
 	</div>
 	<div class="list-container">
 		<div class="list-header song-list-grid">

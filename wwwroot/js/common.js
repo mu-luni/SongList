@@ -97,6 +97,33 @@ function updateSortIcons(activeKey) {
   });
 }
 
+function syncMobileSortControls() {
+  const keyControl = document.querySelector('.mobile-sort-key');
+  const directionControl = document.querySelector('.mobile-sort-direction');
+  if (!keyControl || !directionControl) return;
+
+  if (Array.from(keyControl.options).some(option => option.value === currentSort.key)) {
+    keyControl.value = currentSort.key;
+  }
+  directionControl.value = currentSort.asc ? 'asc' : 'desc';
+}
+
+function bindMobileSortControls() {
+  const keyControl = document.querySelector('.mobile-sort-key');
+  const directionControl = document.querySelector('.mobile-sort-direction');
+  if (!keyControl || !directionControl) return;
+
+  keyControl.addEventListener('change', () => {
+    currentSort = { key: keyControl.value, asc: directionControl.value === 'asc' };
+    sortTable(keyControl.value, false);
+  });
+
+  directionControl.addEventListener('change', () => {
+    currentSort.asc = directionControl.value === 'asc';
+    sortTable(currentSort.key || keyControl.value, false);
+  });
+}
+
 function bindSortHeaders() {
   document.querySelectorAll('.sort-col').forEach(header => {
     // 二重登録防止（一度既存のリスナーを解除）
@@ -147,6 +174,7 @@ function sortTable(key, toggle = true) {
   
   updateSortIcons(key);
   saveSortState();
+  syncMobileSortControls();
 }
 
 function fallbackCopyText(text) {
@@ -232,15 +260,18 @@ document.addEventListener('click', async (event) => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
+  bindMobileSortControls();
   const isDetailsPage = document.querySelector('.sort-col[data-sort-key="ReleaseDate"]');
 
   if (isDetailsPage) {
     currentSort = { key: 'ReleaseDate', asc: false };
+    syncMobileSortControls();
     sortTable('ReleaseDate', false);
     return;
   }
 
   currentSort = loadSortState();
+  syncMobileSortControls();
 
   if (currentSort.key) {
     sortTable(currentSort.key, false);
@@ -250,5 +281,6 @@ document.addEventListener('DOMContentLoaded', () => {
     sortTable('ReleaseDate', false);
   } else {
     updateSortIcons(null);
+    syncMobileSortControls();
   }
 });

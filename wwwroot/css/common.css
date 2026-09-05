@@ -412,6 +412,11 @@ body
 	font-size: 16px;
  }
 
+.mobile-sort-controls
+ {
+	display: none;
+ }
+
 /* スクロール領域 */
 .list-container
  {
@@ -861,6 +866,61 @@ body
 /* レスポンシブ対応 */
 @media (max-width: 640px)
  {
+	.result-info-bar
+	 {
+		align-items: center;
+		gap: 12px;
+		flex-wrap: wrap;
+	 }
+	.mobile-sort-controls
+	 {
+		display: flex;
+		width: auto;
+		margin-left: auto;
+		padding: 5px 6px;
+		gap: 8px;
+		justify-content: flex-end;
+		background: #f8fafc;
+		border: 1px solid #e2e8f0;
+		border-radius: 12px;
+		box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+	 }
+	.mobile-sort-control
+	 {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		flex: 0 0 auto;
+		font-size: 12px;
+		font-weight: 600;
+		color: var(--text-sub);
+		white-space: nowrap;
+	 }
+	.mobile-sort-control > span
+	 {
+		font-size: 11px;
+		font-weight: 700;
+		color: var(--primary-hover);
+	 }
+	.mobile-sort-control .select-box
+	 {
+		min-width: 0;
+		padding: 7px 9px;
+		font-size: 12px;
+		font-weight: 600;
+		border-color: #cbd5e1;
+		border-radius: 8px;
+		box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+	 }
+	.mobile-sort-direction
+	 {
+		width: 72px;
+		max-width: 72px;
+	 }
+	.mobile-sort-key
+	 {
+		max-width: 110px;
+	 }
 	.form-grid
 	 {
 		grid-template-columns: 1fr;
