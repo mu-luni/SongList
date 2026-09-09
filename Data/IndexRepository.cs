@@ -150,37 +150,43 @@ namespace Index.Repository
                 sb.AppendLine("       ) slst ");
                 sb.AppendLine("    on song.song_id = slst.song_id ");
                 sb.AppendLine(" where (slst.sung_count > 0 ");
+                // 歌った曲のスイッチがONの場合は、歌った曲のみを対象にする
                 if (!searchCondition.IsSungOnly)
                 {
                     sb.AppendLine("    or  song.sing_member ilike '%' || @srcMember || '%' ");
                 }
                 sb.AppendLine("       ) ");
+                // ジャンルが指定されている場合
+                if (!string.IsNullOrEmpty(searchCondition.Genre))
+                {
+                    sb.AppendLine("   and @srcGenre in (song.genre_code1, song.genre_code2, song.genre_code3, song.genre_code4, song.genre_code5) ");
+                }
+                // タイアップが指定されている場合
+                if (!string.IsNullOrEmpty(searchCondition.Tieup))
+                {
+                    sb.AppendLine("   and (song.tieup_name ilike '%' || @srcTieup || '%' ");
+                    sb.AppendLine("    or  song.tieup_kana ilike '%' || to_kana(@srcTieup) || '%' ");
+                    sb.AppendLine("       ) ");
+                }
+                // ランダムボタンを押下時
                 if (searchCondition.Randomize)
                 {
                     sb.AppendLine(" order by random() limit 1 ");
                 }
                 else
                 {
+                    // 曲名が指定されている場合
                     if (!string.IsNullOrEmpty(searchCondition.SongName))
                     {
                         sb.AppendLine("   and (song.song_name ilike '%' || @srcSong || '%' ");
                         sb.AppendLine("    or  song.song_kana ilike '%' || to_kana(@srcSong) || '%' ");
                         sb.AppendLine("       ) ");
                     }
+                    // アーティスト名が指定されている場合
                     if (!string.IsNullOrEmpty(searchCondition.ArtistName))
                     {
                         sb.AppendLine("   and (song.artist_name ilike '%' || @srcArtist || '%' ");
                         sb.AppendLine("    or  song.artist_kana ilike '%' || to_kana(@srcArtist) || '%' ");
-                        sb.AppendLine("       ) ");
-                    }
-                    if (!string.IsNullOrEmpty(searchCondition.Genre))
-                    {
-                        sb.AppendLine("   and @srcGenre in (song.genre_code1, song.genre_code2, song.genre_code3, song.genre_code4, song.genre_code5) ");
-                    }
-                    if (!string.IsNullOrEmpty(searchCondition.Tieup))
-                    {
-                        sb.AppendLine("   and (song.tieup_name ilike '%' || @srcTieup || '%' ");
-                        sb.AppendLine("    or  song.tieup_kana ilike '%' || to_kana(@srcTieup) || '%' ");
                         sb.AppendLine("       ) ");
                     }
                     sb.AppendLine(" order by song.artist_name ");
@@ -189,6 +195,14 @@ namespace Index.Repository
                 using (var cmd = new NpgsqlCommand(sb.ToString(), conn))
                 {
                     cmd.Parameters.Add("@srcMember", NpgsqlTypes.NpgsqlDbType.Varchar, 2).Value = searchCondition.Member;
+                    if (!string.IsNullOrEmpty(searchCondition.Genre))
+                    {
+                        cmd.Parameters.Add("@srcGenre", NpgsqlTypes.NpgsqlDbType.Varchar, 500).Value = searchCondition.Genre;
+                    }
+                    if (!string.IsNullOrEmpty(searchCondition.Tieup))
+                    {
+                        cmd.Parameters.Add("@srcTieup", NpgsqlTypes.NpgsqlDbType.Varchar, 500).Value = searchCondition.Tieup;
+                    }
                     if (!searchCondition.Randomize)
                     {
                         if (!string.IsNullOrEmpty(searchCondition.SongName))
@@ -198,14 +212,6 @@ namespace Index.Repository
                         if (!string.IsNullOrEmpty(searchCondition.ArtistName))
                         {
                             cmd.Parameters.Add("@srcArtist", NpgsqlTypes.NpgsqlDbType.Varchar, 500).Value = searchCondition.ArtistName;
-                        }
-                        if (!string.IsNullOrEmpty(searchCondition.Genre))
-                        {
-                            cmd.Parameters.Add("@srcGenre", NpgsqlTypes.NpgsqlDbType.Varchar, 500).Value = searchCondition.Genre;
-                        }
-                        if (!string.IsNullOrEmpty(searchCondition.Tieup))
-                        {
-                            cmd.Parameters.Add("@srcTieup", NpgsqlTypes.NpgsqlDbType.Varchar, 500).Value = searchCondition.Tieup;
                         }
                     }
                     using (var reader = cmd.ExecuteReader())
