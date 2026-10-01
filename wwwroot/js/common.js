@@ -1,5 +1,6 @@
 const INDEX_SORT_STATE_KEY = 'songListIndexSortState';
 const DETAILS_SORT_STATE_KEY = 'songListDetailsSortState';
+const japaneseCollator = new Intl.Collator('ja-JP');
 let toastTimer = null;
 
 function showCopyToast(message) {
@@ -75,9 +76,7 @@ function getRowSortValue(row, key) {
 }
 
 function compareStrings(valueA, valueB) {
-  if (valueA < valueB) return -1;
-  if (valueA > valueB) return 1;
-  return 0;
+  return japaneseCollator.compare(valueA, valueB);
 }
 
 function updateSortIcons(activeKey) {
