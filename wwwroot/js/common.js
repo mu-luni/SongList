@@ -53,10 +53,10 @@ function saveSortState() {
 
 function getRowSortValue(row, key) {
   if (key === 'SongName') {
-    return row.dataset.songName || row.querySelector('.song-title')?.textContent.trim() || '';
+    return row.dataset.songKana || row.dataset.songName || row.querySelector('.song-title')?.textContent.trim() || '';
   }
   if (key === 'ArtistName') {
-    return row.dataset.artistName || row.querySelector('.artist-name')?.textContent.trim() || '';
+    return row.dataset.artistKana || row.dataset.artistName || row.querySelector('.artist-name')?.textContent.trim() || '';
   }
   if (key === 'LastSungDate') {
     return row.dataset.lastSungDate || row.querySelector('.last-sung-date')?.textContent.trim() || '';

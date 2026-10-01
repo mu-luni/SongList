@@ -45,10 +45,14 @@ namespace SongList.Models.ViewModels
         public string MemberCode { get; set; } = string.Empty;
         [DisplayName("曲名")]
         public string SongName { get; set; } = string.Empty;
-        [DisplayName("タイアップ")]
-        public string TieupName { get; set; } = string.Empty;
+        [DisplayName("曲名カナ")]
+        public string SongKana { get; set; } = string.Empty;
         [DisplayName("アーティスト名")]
         public string ArtistName { get; set; } = string.Empty;
+        [DisplayName("アーティスト名カナ")]
+        public string ArtistKana { get; set; } = string.Empty;
+        [DisplayName("タイアップ")]
+        public string TieupName { get; set; } = string.Empty;
         [DisplayName("ジャンルコード")]
         public string GenreCode { get; set; } = string.Empty;
         [DisplayName("ジャンル名")]

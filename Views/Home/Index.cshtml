@@ -127,7 +127,7 @@
 		<div id="result-item">
 			@foreach (SongList.Models.ViewModels.SongListModel item in Model.songList)
 				{
-					<div class="list-item song-list-grid" data-song-name="@item.SongName" data-artist-name="@item.ArtistName" data-last-sung-date="@item.LastSungDate" data-sung-count="@item.SungCount">
+					<div class="list-item song-list-grid" data-song-name="@item.SongName" data-song-kana="@item.SongKana" data-artist-name="@item.ArtistName" data-artist-kana="@item.ArtistKana" data-last-sung-date="@item.LastSungDate" data-sung-count="@item.SungCount">
 						<div class="col-center">
 							<div class="action-buttons">
 								<form method="post" asp-action="Details">
