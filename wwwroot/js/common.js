@@ -195,7 +195,6 @@ function bindRoulette() {
     startButton.disabled = true;
     stopButton.hidden = false;
     stopButton.disabled = false;
-    selectButton.hidden = true;
     selectButton.disabled = true;
     status.textContent = '回転中...';
     spinTimer = window.setInterval(selectRandomRow, 90);
@@ -217,7 +216,6 @@ function bindRoulette() {
     startButton.disabled = false;
     stopButton.hidden = true;
     stopButton.disabled = true;
-    selectButton.hidden = true;
     selectButton.disabled = true;
     status.textContent = '開始を押してください';
     dialog.returnValue = '';
@@ -234,7 +232,6 @@ function bindRoulette() {
     startButton.disabled = false;
     stopButton.hidden = true;
     stopButton.disabled = true;
-    selectButton.hidden = false;
     selectButton.disabled = false;
     status.textContent = 'この曲を選択しますか？';
   });
@@ -273,7 +270,6 @@ function bindRoulette() {
     startButton.disabled = true;
     stopButton.hidden = false;
     stopButton.disabled = true;
-    selectButton.hidden = true;
     selectButton.disabled = true;
 
     if (dialog.returnValue !== 'selected') {
