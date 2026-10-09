@@ -165,6 +165,129 @@ function bindMobileDetailsToggle() {
   });
 }
 
+function bindRoulette() {
+  const resultContainer = document.getElementById('result-item');
+  const dialog = document.querySelector('.roulette-dialog');
+  const reel = document.querySelector('.roulette-reel');
+  const value = document.querySelector('.roulette-value');
+  const openButton = document.querySelector('.btn-roulette-open');
+  const startButton = document.querySelector('.btn-roulette-start');
+  const stopButton = document.querySelector('.btn-roulette-stop');
+  const selectButton = document.querySelector('.btn-roulette-select');
+  const cancelButton = document.querySelector('.btn-roulette-cancel');
+  const status = document.querySelector('.roulette-status');
+  const resultCount = document.querySelector('.result-count strong');
+  if (!resultContainer || !dialog || !reel || !value || !openButton || !startButton || !stopButton || !selectButton || !cancelButton || !status || !resultCount) return;
+
+  const rows = Array.from(resultContainer.querySelectorAll('.list-item'));
+  let spinTimer = null;
+  let selectedRow = null;
+
+  const selectRandomRow = () => {
+    selectedRow = rows[Math.floor(Math.random() * rows.length)];
+    value.textContent = `${selectedRow.dataset.songName} / ${selectedRow.dataset.artistName}`;
+  };
+
+  const startSpinning = () => {
+    selectRandomRow();
+    reel.classList.add('is-spinning');
+    startButton.hidden = true;
+    startButton.disabled = true;
+    stopButton.hidden = false;
+    stopButton.disabled = false;
+    selectButton.hidden = true;
+    selectButton.disabled = true;
+    status.textContent = '回転中...';
+    spinTimer = window.setInterval(selectRandomRow, 90);
+  };
+
+  openButton.disabled = rows.length === 0;
+
+  openButton.addEventListener('click', () => {
+    if (rows.length === 0 || spinTimer !== null) return;
+
+    rows.forEach(row => {
+      row.hidden = false;
+    });
+    resultCount.textContent = String(rows.length);
+    selectedRow = null;
+    value.textContent = '開始を押してください';
+    reel.classList.remove('is-spinning');
+    startButton.hidden = false;
+    startButton.disabled = false;
+    stopButton.hidden = true;
+    stopButton.disabled = true;
+    selectButton.hidden = true;
+    selectButton.disabled = true;
+    status.textContent = '開始を押してください';
+    dialog.returnValue = '';
+    dialog.showModal();
+  });
+
+  stopButton.addEventListener('click', () => {
+    if (spinTimer === null || !selectedRow) return;
+
+    window.clearInterval(spinTimer);
+    spinTimer = null;
+    reel.classList.remove('is-spinning');
+    startButton.hidden = false;
+    startButton.disabled = false;
+    stopButton.hidden = true;
+    stopButton.disabled = true;
+    selectButton.hidden = false;
+    selectButton.disabled = false;
+    status.textContent = 'この曲を選択しますか？';
+  });
+
+  startButton.addEventListener('click', () => {
+    if (spinTimer !== null || !dialog.open) return;
+    startSpinning();
+  });
+
+  selectButton.addEventListener('click', () => {
+    if (spinTimer !== null || !selectedRow) return;
+
+    rows.forEach(row => {
+      row.hidden = row !== selectedRow;
+    });
+    resultCount.textContent = '1';
+    selectButton.disabled = true;
+    dialog.close('selected');
+  });
+
+  cancelButton.addEventListener('click', () => dialog.close('cancelled'));
+
+  dialog.addEventListener('keydown', event => {
+    if (event.key !== 'Escape' || !dialog.open) return;
+    event.preventDefault();
+    dialog.close('cancelled');
+  });
+
+  dialog.addEventListener('close', () => {
+    if (spinTimer !== null) {
+      window.clearInterval(spinTimer);
+      spinTimer = null;
+    }
+    reel.classList.remove('is-spinning');
+    startButton.hidden = true;
+    startButton.disabled = true;
+    stopButton.hidden = false;
+    stopButton.disabled = true;
+    selectButton.hidden = true;
+    selectButton.disabled = true;
+
+    if (dialog.returnValue !== 'selected') {
+      rows.forEach(row => {
+        row.hidden = false;
+      });
+      resultCount.textContent = String(rows.length);
+      status.textContent = '中断しました';
+    }
+
+    openButton.disabled = rows.length === 0;
+  });
+}
+
 function bindSortHeaders() {
   document.querySelectorAll('.sort-col').forEach(header => {
     // 二重登録防止（一度既存のリスナーを解除）
@@ -303,6 +426,7 @@ document.addEventListener('click', async (event) => {
 document.addEventListener('DOMContentLoaded', () => {
   bindMobileSearchToggle();
   bindMobileDetailsToggle();
+  bindRoulette();
   bindMobileSortControls();
   const isDetailsPage = document.querySelector('.sort-col[data-sort-key="ReleaseDate"]');
 

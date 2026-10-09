@@ -114,7 +114,23 @@
 	<!-- 件数バー -->
 	<div class="result-info-bar">
 		<span class="result-count">該当件数: <strong>@Model.ListCount</strong> 件</span>
+		<button type="button" class="btn-roulette-open" disabled="@(Model.songList.Count == 0)">ルーレット</button>
 	</div>
+	<dialog class="roulette-dialog" aria-labelledby="roulette-title">
+		<section class="roulette-panel">
+			<h2 id="roulette-title">選曲ルーレット</h2>
+			<div class="roulette-reel" aria-live="off">
+				<span class="roulette-value">検索結果から選曲</span>
+			</div>
+			<div class="roulette-actions">
+				<button type="button" class="btn-roulette-start" hidden disabled>開始</button>
+				<button type="button" class="btn-roulette-stop" disabled>停止</button>
+				<button type="button" class="btn-roulette-select" hidden disabled>選択</button>
+				<button type="button" class="btn-roulette-cancel">中断</button>
+			</div>
+			<p class="roulette-status" aria-live="polite">回転中...</p>
+		</section>
+	</dialog>
 	<div class="list-container">
 		<div class="list-header song-list-grid">
 			<div class="col-center">詳細</div>
